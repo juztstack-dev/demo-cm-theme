@@ -1,0 +1,111 @@
+juzt-orbit\:mobile-menu {
+  position: absolute;
+  top: 0;
+  right: -100%;
+  width: 100%;
+  max-width: 400px;
+  height: 100dvh;
+  background-color: #000;
+  display: flex;
+  flex-direction: column;
+  z-index: 9999999;
+  transition: right 0.5s ease-in-out;
+}
+
+.mobile-menu-open {
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 4rem;
+  cursor: pointer;
+
+  @media (min-width: 768px) {
+    display: none;
+  }
+}
+
+.site-header-nav {
+  @media (max-width: 768px) {
+    display: none;
+  }
+}
+
+juzt-orbit\:mobile-menu .overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1;
+  opacity: 0;
+  pointer-events: none;
+  /* no bloquea clicks cuando está invisible */
+  transition: opacity 0.5s ease-in-out;
+}
+
+juzt-orbit\:mobile-menu.open .overlay {
+  opacity: 1;
+  pointer-events: all;
+  /* vuelve a capturar clicks cuando está visible */
+}
+
+juzt-orbit\:mobile-menu>div {
+  position: relative;
+  z-index: 2;
+  /* por encima del overlay */
+  height: 100%;
+}
+
+juzt-orbit\:mobile-menu.open {
+  right: 0;
+
+  & .overlay {
+    opacity: 1;
+  }
+}
+
+juzt-orbit\:mobile-menu .mobile-menu-nav {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+juzt-orbit\:mobile-menu .mobile-menu-nav ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+juzt-orbit\:mobile-menu .mobile-menu-nav ul li {
+  border-bottom: 1px solid #fff;
+  padding: 10px 30px;
+
+  transition: all 0.3s ease;
+
+  &:hover {
+    background-color: #6132fb;
+  }
+}
+
+juzt-orbit\:mobile-menu .mobile-menu-nav li a {
+  color: #fff;
+  font-size: 1.5rem;
+  text-decoration: none;
+}
+
+juzt-orbit\:mobile-menu .mobile-menu-header {
+  display: flex;
+  justify-content: flex-end;
+  padding: 5px 20px;
+  background-color: #6132fb;
+
+  .mobile-menu-close {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 4rem;
+    cursor: pointer;
+  }
+}

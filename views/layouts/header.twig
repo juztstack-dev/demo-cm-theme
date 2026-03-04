@@ -1,13 +1,23 @@
-{% set menu_items = get_menu_items('3') %}
-<header class="site-header">
-	<img class="site-header-logo" src="{{ site.theme.link }}/images/orbit-white.svg"/>
-	<nav>
+{% set menu_items = get_menu_items(settings.main_menu) %}
+
+<header	class="site-header">
+	<img class="site-header-logo"	src="{{ site.theme.link }}/images/orbit-white.svg" />
+	<nav class="site-header-nav">
 		<ul>
 			{% for item in menu_items %}
 				<li>
-					<a href="{{ item.link }}">{{ item.title }}</a>
+					<a	href="{{ item.link }}">
+						{{ item.title }}
+					</a>
 				</li>
 			{% endfor %}
 		</ul>
 	</nav>
+	<button	data-event="juzt-orbit:toggle-menu"	class="mobile-menu-open"	aria-label="Open menu">
+		<span class="open-icon">
+			&#9776;
+		</span>
+	</button>
 </header>
+
+{{ snippet('mobile-menu', { menu_items: menu_items }) }}

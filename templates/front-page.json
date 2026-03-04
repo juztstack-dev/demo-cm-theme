@@ -4,8 +4,8 @@
         "section_1763724281878": {
             "section_id": "hello-orbit",
             "settings": {
-                "title": "Hello Orbit!",
-                "background": "#6132fb",
+                "title": "Hello Orbit!!",
+                "background": "#2ac064",
                 "color": "#ffffff"
             },
             "blocks": [
@@ -55,20 +55,10 @@
                     }
                 }
             ]
-        },
-        "section_1764371811920": {
-            "section_id": "hello-juzt",
-            "settings": {
-                "title": "Hello from Juzt Extension!",
-                "subtitle": "This section comes from an extension",
-                "background_color": "#1f1050"
-            },
-            "blocks": []
         }
     },
     "order": [
-        "section_1763724281878",
-        "section_1764371811920"
+        "section_1763724281878"
     ],
     "name": "Home page Front",
     "description": "Main template file"

@@ -1,0 +1,23 @@
+<juzt-orbit:mobile-menu class="">
+    <span class="overlay"></span>
+    <div>
+        <div class="mobile-menu-header">
+            <button data-event="juzt-orbit:toggle-menu" class="mobile-menu-close">
+                <span>
+                    &times;
+                </span>
+            </button>
+        </div>
+        <nav class="mobile-menu-nav">
+            <ul>
+                {% for item in menu_items %}
+                    <li>
+                        <a href="{{ item.link }}">
+                            {{ item.title }}
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </nav>
+    </div>
+</juzt-orbit:mobile-menu>

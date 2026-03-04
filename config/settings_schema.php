@@ -11,6 +11,10 @@ return [
       "type" => "menu",
       "label" => "Main Menu",
       "default" => ""
+    ],
+    "favicon_image" => [
+      "type" => "file",
+      "label" => "Favicon Image"
     ]
   ]
 ];
