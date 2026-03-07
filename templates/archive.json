@@ -1,0 +1,21 @@
+{
+    "name": "archive",
+    "description": "Template for Archive",
+    "template": true,
+    "order": [
+        "section_1772734573853"
+    ],
+    "sections": {
+        "section_1772734573853": {
+            "section_id": "main-archive",
+            "settings": {
+                "pagination_type": "load_more",
+                "quantity_cols_desktop": 3,
+                "quantity_cols_tablet": "2",
+                "quantity_cols_mobile": ""
+            },
+            "blocks": []
+        }
+    },
+    "post_type": "post"
+}

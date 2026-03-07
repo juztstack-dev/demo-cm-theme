@@ -1,0 +1,20 @@
+{
+    "name": "no-found",
+    "description": "Template for 404 page",
+    "template": true,
+    "order": [
+        "section_1772743086413"
+    ],
+    "sections": {
+        "section_1772743086413": {
+            "section_id": "main-nofound",
+            "settings": {
+                "title": "Page Not Found",
+                "background": "#6433ff",
+                "color": "#ffffff"
+            },
+            "blocks": []
+        }
+    },
+    "post_type": "page"
+}

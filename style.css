@@ -34,7 +34,6 @@ body {
 .site-header {
   width: 100%;
   padding: 20px;
-  background-color: #151515;
   color: #ffffff;
   text-align: center;
   height: 100px;
@@ -43,7 +42,7 @@ body {
   align-items: center;
 
   .site-header-logo {
-    width: 100px;
+    width: 45px;
   }
 
   h1 {
@@ -84,6 +83,7 @@ body {
   justify-content: center;
   font-size: 10px;
   padding: 4px 0px;
+  width: 100%;
 }
 
 /***
@@ -241,12 +241,17 @@ body {
     padding: 0 20px;
     font-size: 1.2rem;
     line-height: 1.6;
+    @media (min-width: 1024px){
+      min-height: calc(100dvh - 384px);
+    }
     a {
       text-decoration: underline;
       color: var(--link-color);
     }
-    p {
-      margin-bottom: 1rem;
+    p,
+    img {
+      margin-bottom: 2rem;
+      margin-top: 2rem;
     }
   }
 }
@@ -272,5 +277,30 @@ body {
   }
   .main-hero__subtitle {
     font-size: 1.5rem;
+  }
+}
+
+.screen-section {
+  width: 100%;
+  min-height: calc(100vh - 154px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  position: relative;
+
+  @media screen and (max-width: 768px) {
+    min-height: calc(100vh - 168px);
+  }
+
+  h1 {
+    font-family: var(--head-fonts);
+    font-size: 4rem;
+    text-align: center;
+
+    @media screen and (max-width: 768px) {
+      font-size: 2.5rem;
+    }
   }
 }

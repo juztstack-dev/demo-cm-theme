@@ -1,0 +1,21 @@
+{
+  "name": "category",
+  "description": "Template for category archive",
+  "template": true,
+  "order": [
+    "section_1772900010001"
+  ],
+  "sections": {
+    "section_1772900010001": {
+      "section_id": "main-archive",
+      "settings": {
+        "pagination_type": "numeric",
+        "quantity_cols_desktop": 3,
+        "quantity_cols_tablet": 2,
+        "quantity_cols_mobile": 1
+      },
+      "blocks": []
+    }
+  },
+  "post_type": "post"
+}

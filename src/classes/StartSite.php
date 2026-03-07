@@ -18,7 +18,9 @@ class StartSite extends Site
 {
   public function __construct()
   {
+    add_filter('show_admin_bar', [$this, 'hide_admin_bar_in_iframe']);
     add_action('after_setup_theme', array($this, 'themeSupports'));
+    
     new Extensions();
     new JuztStack();
     new Assets([
@@ -40,6 +42,15 @@ class StartSite extends Site
     new SvgSupport();
     new Widgets();
     return parent::__construct();
+  }
+
+  public function hide_admin_bar_in_iframe($show)
+  {
+    // Detectar si está en iframe
+    if (isset($_SERVER['HTTP_SEC_FETCH_DEST']) && $_SERVER['HTTP_SEC_FETCH_DEST'] === 'iframe') {
+      return false;
+    }
+    return $show;
   }
 
   public function themeSupports()

@@ -1,7 +1,13 @@
-{% set menu_items = get_menu_items(settings.main_menu) %}
+{% set menu_items = get_menu_items(settings.header_main_menu) %}
+{% set header_logo = site.theme.link ~ '/images/orbit-white.svg' %}
+{% if settings.header_logo %}
+	{% set header_logo = settings.header_logo | attachment_url %}
+{% endif %}
 
-<header	class="site-header">
-	<img class="site-header-logo"	src="{{ site.theme.link }}/images/orbit-white.svg" />
+<header style="background-color: {{ settings.header_background_color }}"	class="site-header">
+	<a href="{{ site.link }}">
+		<img class="site-header-logo" src="{{ header_logo }}" />
+	</a>
 	<nav class="site-header-nav">
 		<ul>
 			{% for item in menu_items %}

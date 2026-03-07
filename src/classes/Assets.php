@@ -25,10 +25,27 @@ class Assets
         'enqueueScripts'
       )
     );
+
+    add_filter(
+      'wp_resource_hints',
+      array(
+        $this,
+        'addGoogleFontResourceHints'
+      ),
+      10,
+      2
+    );
   }
 
   public function enqueueStyles()
   {
+    wp_enqueue_style(
+      'juzt-orbit-google-fonts',
+      'https://fonts.googleapis.com/css2?family=Fugaz+One&family=Marcellus&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap',
+      array(),
+      null
+    );
+
     wp_enqueue_style(
       'juzt-orbit-style',
       get_template_directory_uri() . '/style.css',
@@ -80,5 +97,18 @@ class Assets
       }
     }
 
+  }
+
+  public function addGoogleFontResourceHints($urls, $relation_type)
+  {
+    if ($relation_type === 'preconnect') {
+      $urls[] = 'https://fonts.googleapis.com';
+      $urls[] = array(
+        'href' => 'https://fonts.gstatic.com',
+        'crossorigin' => 'anonymous',
+      );
+    }
+
+    return $urls;
   }
 }

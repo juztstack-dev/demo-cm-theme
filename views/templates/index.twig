@@ -2,13 +2,15 @@
 {% block content %}
     {% for item in order %}
       {% set section_id = sections[item].section_id %}
-      
-      <section id="{{ item }}" data-section-id="{{ section_id }}">
-        {% include [
-            "sections/" ~ section_id ~ ".twig",
-            section_id ~ "/" ~ section_id ~ ".twig",
-            section_id ~ ".twig"
-        ] ignore missing with {'section': sections[item] } %}
+      {% set asset_source = get_section_source(section_id) %}
+      <section id="{{ item }}" data-section-id="{{ section_id }}" data-preview-section-key="{{ item }}">
+        <div data-preview-section-inner="1">
+          {% include [
+              "sections/" ~ section_id ~ ".twig",
+              section_id ~ "/" ~ section_id ~ ".twig",
+              section_id ~ ".twig"
+          ] ignore missing with {'section': sections[item], 'asset_source': asset_source } %}
+        </div>
       </section>
     {% endfor %}
 {% endblock %}

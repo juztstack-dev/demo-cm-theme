@@ -1,0 +1,18 @@
+{
+  "name": "embed",
+  "description": "Template for embed preview",
+  "template": true,
+  "order": [
+    "section_1772900010008"
+  ],
+  "sections": {
+    "section_1772900010008": {
+      "section_id": "main-page",
+      "settings": {
+        "background": "#6433ff"
+      },
+      "blocks": []
+    }
+  },
+  "post_type": "post"
+}

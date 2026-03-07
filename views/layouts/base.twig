@@ -1,16 +1,32 @@
 <!DOCTYPE html>
 <html lang="{{ site.language }}">
+<head>
 {% block html_head_container %}
 	{% include 'layouts/head.twig' %}
 	{% block head %}{% endblock %}
-    </head>
+
+    <!-- Script from general settings -->
+    {% if settings.code_js %}
+    <script type="text/javascript">
+        {{ settings.code_js|base64_decode|raw }}
+    </script>
+    {% endif %}
 {% endblock %}
+</head>
     <body class="{{body_class}} bg-gray-50">
-        {% include "layouts/header.twig" %}
+        <div data-preview-layout="header">
+            <div data-preview-layout-inner="1">
+                {% include "layouts/header.twig" %}
+            </div>
+        </div>
         <main>
             {% block content %}{% endblock %}
         </main>
-        {% include "layouts/footer.twig" %}
+        <div data-preview-layout="footer">
+            <div data-preview-layout-inner="1">
+                {% include "layouts/footer.twig" %}
+            </div>
+        </div>
         {% block footer %}{% endblock %}
         </footer>
         {{function('wp_footer')}}
