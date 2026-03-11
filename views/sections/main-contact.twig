@@ -1,0 +1,13 @@
+<div class="juzt-orbit-main-contact">
+    <div class="juzt-orbit-main-contact__container juzt-orbit-container">
+        <div class="juzt-orbit-main-contact__content">
+            <h2 class="juzt-orbit-main-contact__title">{{ section.settings.title }}</h2>
+            <p class="juzt-orbit-main-contact__description">{{ section.settings.description }}</p>
+            {% if section.settings.contact_form_shortcode %}
+            <div class="juzt-orbit-main-contact__form">
+                {{ shortcode(section.settings.contact_form_shortcode) }}
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>

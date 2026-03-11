@@ -4,13 +4,23 @@
         "section_1763732558646": {
             "section_id": "main-page",
             "settings": {
-                "background": "#000000"
+                "background": "#3b0146"
+            },
+            "blocks": []
+        },
+        "section_1773175405350": {
+            "section_id": "main-comments",
+            "settings": {
+                "title": "Comments",
+                "background": "#3b0146",
+                "color": "#ffffff"
             },
             "blocks": []
         }
     },
     "order": [
-        "section_1763732558646"
+        "section_1763732558646",
+        "section_1773175405350"
     ],
     "name": "Single Post Template",
     "description": "Main template for post",

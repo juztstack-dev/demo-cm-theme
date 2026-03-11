@@ -1,18 +1,38 @@
 {% set menu_items = get_menu_items(settings.header_main_menu) %}
-{% set header_logo = site.theme.link ~ '/images/orbit-white.svg' %}
+{% set header_logo_src = site.theme.link ~ '/images/orbit-white.svg' %}
+
+{% set header_logo = snippet('image', {
+	src: header_logo_src,
+	alt: settings.header_logo_alt_text|default(site.name),
+	width: settings.header_logo_width,
+	height: settings.header_logo_height,
+	loading: 'eager',
+	fetchPriority: 'high',
+	class: 'site-header-logo'
+}) %}
+
 {% if settings.header_logo %}
-	{% set header_logo = settings.header_logo | attachment_url %}
+	{% set header_logo = snippet('image', {
+		attachment_id: settings.header_logo,
+		src: header_logo_src,
+		alt: settings.header_logo_alt_text|default(site.name),
+		width: settings.header_logo_width,
+		height: settings.header_logo_height,
+		loading: 'eager',
+		fetchPriority: 'high',
+		class: 'site-header-logo'
+	}) %}
 {% endif %}
 
 <header style="background-color: {{ settings.header_background_color }}"	class="site-header">
 	<a href="{{ site.link }}">
-		<img class="site-header-logo" src="{{ header_logo }}" />
+		{{ header_logo }}
 	</a>
-	<nav class="site-header-nav">
-		<ul>
+	<nav class="site-header-nav" aria-label="Main navigation">
+		<ul class="site-header-nav-list">
 			{% for item in menu_items %}
-				<li>
-					<a	href="{{ item.link }}">
+				<li class="site-header-nav-item">
+					<a class="site-header-nav-link" href="{{ item.link }}">
 						{{ item.title }}
 					</a>
 				</li>

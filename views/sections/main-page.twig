@@ -3,8 +3,27 @@
 <div class="orbit-main-page">
   <div class="orbit-main-page__meta" style="--bg-color: {{ bg_color }};">
     <h1 class="orbit-main-page__title">{{ post.title }}</h1>
+    <div class="orbit-main-page__date">
+      <p  class="orbit-main-page__date-string">{{ post.date | date("F j, Y") }}</p>
+    </div>
   </div>
   <div class="orbit-main-page__contet" style="--link-color: {{ bg_color }};">
     {{ post.content }}
   </div>
+  {% if post.post_type == 'post' %}
+  <div class="orbit-main-page__links">
+    <div class="juzt-orbit-container juzt-orbit-center juzt-orbit-padding">
+      {% if post.prev %}
+        <a href="{{ post.prev.link }}" class="orbit-main-page__link orbit-main-page__link--previous">
+          &larr; {{ post.prev.title }}
+        </a>
+      {% endif %}
+      {% if post.next %}
+        <a href="{{ post.next.link }}" class="orbit-main-page__link orbit-main-page__link--next">
+          {{ post.next.title }} &rarr;
+        </a>
+      {% endif %}
+    </div>
+  </div>
+  {% endif %}
 </div>

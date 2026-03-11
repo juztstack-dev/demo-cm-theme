@@ -2,13 +2,21 @@
 
 namespace JuztStack\JuztOrbit;
 
-class Assets 
+class Assets
 {
   private $assets;
 
-  public function __construct($assets=[])
+  public function __construct($assets = [])
   {
     $this->assets = $assets;
+
+    add_action(
+      'wp_head',
+      array(
+        $this,
+        'addGoogleFontsPreconnect'
+      )
+    );
 
     add_action(
       'wp_enqueue_scripts',
@@ -25,23 +33,13 @@ class Assets
         'enqueueScripts'
       )
     );
-
-    add_filter(
-      'wp_resource_hints',
-      array(
-        $this,
-        'addGoogleFontResourceHints'
-      ),
-      10,
-      2
-    );
   }
 
   public function enqueueStyles()
   {
     wp_enqueue_style(
       'juzt-orbit-google-fonts',
-      'https://fonts.googleapis.com/css2?family=Fugaz+One&family=Marcellus&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap',
+      'https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=optional',
       array(),
       null
     );
@@ -51,13 +49,16 @@ class Assets
       get_template_directory_uri() . '/style.css',
       array(),
       JUZT_ORBIT_VERSION,
-      'all');
+      'all'
+    );
+
+    $this->removeUnusedAssets();
   }
 
   public function enqueueScripts()
   {
 
-    if(JUZT_ORBIT_DEVELOPMENT_MODE){
+    if (JUZT_ORBIT_DEVELOPMENT_MODE) {
       // Development mode
       if (isset($this->assets['dev']['js'])) {
         foreach ($this->assets['dev']['js'] as $handle => $path) {
@@ -99,16 +100,16 @@ class Assets
 
   }
 
-  public function addGoogleFontResourceHints($urls, $relation_type)
+  public function removeUnusedAssets()
   {
-    if ($relation_type === 'preconnect') {
-      $urls[] = 'https://fonts.googleapis.com';
-      $urls[] = array(
-        'href' => 'https://fonts.gstatic.com',
-        'crossorigin' => 'anonymous',
-      );
-    }
+    //wp_deregister_script('jquery-migrate');
+    //wp_dequeue_script('jquery-migrate');
+    wp_dequeue_style('dashicons');
+  }
 
-    return $urls;
+  public function addGoogleFontsPreconnect()
+  {
+    echo '<link rel="preconnect" href="https://fonts.googleapis.com">' . PHP_EOL;
+    echo '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>' . PHP_EOL;
   }
 }

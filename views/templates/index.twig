@@ -1,16 +1,19 @@
 {% extends "layouts/base.twig" %}
 {% block content %}
     {% for item in order %}
-      {% set section_id = sections[item].section_id %}
-      {% set asset_source = get_section_source(section_id) %}
-      <section id="{{ item }}" data-section-id="{{ section_id }}" data-preview-section-key="{{ item }}">
-        <div data-preview-section-inner="1">
-          {% include [
-              "sections/" ~ section_id ~ ".twig",
-              section_id ~ "/" ~ section_id ~ ".twig",
-              section_id ~ ".twig"
-          ] ignore missing with {'section': sections[item], 'asset_source': asset_source } %}
-        </div>
-      </section>
+      {% set section = attribute(sections, item)|default(null) %}
+      {% if section is not empty and section.section_id is defined and section.section_id is not empty %}
+        {% set section_id = section.section_id %}
+        {% set asset_source = get_section_source(section_id) %}
+        <section id="{{ item|e('html_attr') }}" data-section-id="{{ section_id|e('html_attr') }}" data-preview-section-key="{{ item|e('html_attr') }}">
+          <div data-preview-section-inner="1">
+            {% include [
+                "sections/" ~ section_id ~ ".twig",
+                section_id ~ "/" ~ section_id ~ ".twig",
+                section_id ~ ".twig"
+            ] ignore missing with {'section': section, 'asset_source': asset_source } %}
+          </div>
+        </section>
+      {% endif %}
     {% endfor %}
 {% endblock %}

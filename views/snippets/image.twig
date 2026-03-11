@@ -1,0 +1,23 @@
+{% set size = size | default('full') %}
+{% set meta = attachment_id ? (attachment_id | attachment_meta(size)) : {} %}
+{% set url = attachment_id ? (attachment_id | attachment_url(size)) : (src | default('')) %}
+{% set srcset = attachment_id ? (attachment_id | attachment_srcset(size)) : (srcset | default('')) %}
+{% set loading = loading | default('lazy') %}
+{% set class = class | default('') %}
+{% set fetchPriority = fetchPriority | default('auto')  %}
+{% set sizes = sizes | default(attachment_id ? (attachment_id | attachment_sizes(size)) : '') %}
+{% set alt = alt | default(meta.alt | default('')) %}
+{% set width = width | default(meta.width | default('')) %}
+{% set height = height | default(meta.height | default('')) %}
+
+<img
+    class="{{ class }}"
+    src="{{ url }}"
+    {% if srcset %}srcset="{{ srcset }}"{% endif %}
+    {% if sizes %}sizes="{{ sizes }}"{% endif %}
+    alt="{{ alt }}"
+    {% if width %}width="{{ width }}"{% endif %}
+    {% if height %}height="{{ height }}"{% endif %}
+    loading="{{ loading }}"
+    fetchpriority="{{ fetchPriority }}"
+    {% if alt %}aria-label="{{ 'Image ' ~ alt }}"{% endif %} />

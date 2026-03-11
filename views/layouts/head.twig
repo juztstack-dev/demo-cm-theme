@@ -6,3 +6,12 @@
 <link rel="profile" href="http://gmpg.org/xfn/11">
 <link rel="shortcut icon" href="{{ settings.favicon_image | attachment_url }}" type="image/png">
 {{function('wp_head')}}
+
+<style type="text/css">
+:root {
+    --primary-color: {{ settings.primary_color }};
+    --secondary-color: {{ settings.secondary_color }};
+    --primary-text-color: {{ settings.primary_text_color }};
+    --secondary-text-color: {{ settings.secondary_text_color }};
+}
+</style>

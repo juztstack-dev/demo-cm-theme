@@ -35,6 +35,7 @@ return [
       'tab' => 'general',
       'group' => 'Brand assets',
     ],
+
     'primary_color' => [
       'type' => 'string',
       'format' => 'color',
@@ -43,6 +44,34 @@ return [
       'tab' => 'colors',
       'group' => 'Brand colors',
     ],
+
+    'secondary_color' => [
+      'type' => 'string',
+      'format' => 'color',
+      'title' => 'Secondary color',
+      'default' => '#111111',
+      'tab' => 'colors',
+      'group' => 'Brand colors',
+    ],
+
+    'primary_text_color' => [
+      'type' => 'string',
+      'format' => 'color',
+      'title' => 'Primary text color',
+      'default' => '#ffffff',
+      'tab' => 'colors',
+      'group' => 'Brand colors',
+    ],
+
+    'secondary_text_color' => [
+      'type' => 'string',
+      'format' => 'color',
+      'title' => 'Secondary text color',
+      'default' => '#111111',
+      'tab' => 'colors',
+      'group' => 'Brand colors',
+    ],
+
     'footer_text' => [
       'type' => 'richtext',
       'title' => 'Footer text',

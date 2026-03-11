@@ -1,0 +1,26 @@
+{
+    "template": "page-contact",
+    "sections": {
+        "section_1773247092409": {
+            "section_id": "main-contact",
+            "settings": {
+                "field_0": "#ffffff",
+                "field_1": "Contact Us",
+                "field_2": "Pagina de contacto",
+                "field_3": "",
+                "background_color": "#ffffff",
+                "title": "Contact Us",
+                "description": "",
+                "contact_form_shortcode": "[wpforms id=\"33\"]"
+            },
+            "blocks": []
+        }
+    },
+    "order": [
+        "section_1763732558646",
+        "section_1773247092409"
+    ],
+    "name": "Contact Page Template",
+    "description": "Contact page template with a contact form and map section",
+    "post_type": "page"
+}

@@ -1,12 +1,15 @@
 {
     "layout": "boxed",
     "code_js": "Y29uc29sZS5sb2coJ0hlbGxvJyk7",
-    "favicon_image": "13",
-    "primary_color": "#111111",
+    "favicon_image": "21",
+    "primary_color": "#3b0146",
+    "secondary_color": "#ffffff",
+    "primary_text_color": "#ffffff",
+    "secondary_text_color": "#1a1a1a",
     "footer_text": "<p>Esto es un update</p>",
-    "header_background_color": "#8906d0",
-    "header_logo": "11",
-    "header_main_menu": "2",
+    "header_background_color": "#3b0146",
+    "header_logo": "21",
+    "header_main_menu": "",
     "header_show_search": false,
     "header_type_mobile_menu": "offcanvas"
 }

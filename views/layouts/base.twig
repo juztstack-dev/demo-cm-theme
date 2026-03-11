@@ -1,25 +1,30 @@
 <!DOCTYPE html>
-<html lang="{{ site.language }}">
+<html lang="en">
 <head>
 {% block html_head_container %}
-	{% include 'layouts/head.twig' %}
-	{% block head %}{% endblock %}
-
+	
+    {% include 'layouts/head.twig' %}
+	
+    {% block head %}{% endblock %}
+    
     <!-- Script from general settings -->
     {% if settings.code_js %}
     <script type="text/javascript">
         {{ settings.code_js|base64_decode|raw }}
     </script>
     {% endif %}
+
+    {{ snippet('seo', { post: post }) }}
+
 {% endblock %}
 </head>
-    <body class="{{body_class}} bg-gray-50">
+    <body class="{{body_class}}">
         <div data-preview-layout="header">
             <div data-preview-layout-inner="1">
                 {% include "layouts/header.twig" %}
             </div>
         </div>
-        <main>
+        <main class="">
             {% block content %}{% endblock %}
         </main>
         <div data-preview-layout="footer">

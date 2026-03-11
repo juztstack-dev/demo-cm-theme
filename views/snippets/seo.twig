@@ -1,0 +1,10 @@
+{% if post %}
+    
+    {% set meta_description = post.excerpt({words: 50, read_more: false})|default(post.title) %}
+    <meta name="description" content="{{ meta_description }}" />
+    
+    {% if post.thumbnail %}
+    <meta property="og:image" content="{{ post.thumbnail.src }}" />
+    {% endif %}
+
+{% endif %}

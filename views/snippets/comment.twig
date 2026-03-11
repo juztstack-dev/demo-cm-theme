@@ -1,0 +1,12 @@
+{% set comment = comment|default(null) %}
+
+{% if comment %}
+    <li class="juzt-orbit-comment">
+        <div class="comment-author">
+            {{ comment.author.name|default(comment.author_name|default(comment.comment_author|default('Anonymous'))) }}
+        </div>
+        <div class="comment-content">
+            {{ comment.content }}
+        </div>
+    </li>
+{% endif %}

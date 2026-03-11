@@ -1,7 +1,4 @@
-{% set bg_color = section.settings.background | default("#6132fb") %}
-{% set text_color = section.settings.color | default("#ffffff") %}
-<div class="hello-orbit-section" style="--bg-color:{{bg_color}}; --text-color:{{text_color}};">
-  <img class="hello-orbit-logo" src="{{ site.theme.link }}/images/orbit-white.svg"/>
+<div class="hello-orbit-section">
   <div class="hello-orbit-content">
     <h2 class="hello-orbit-title">{{ section.settings.title }}</h2>
     <ul class="hello-orbit-features">

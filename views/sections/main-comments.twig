@@ -1,0 +1,16 @@
+{% if post %}
+    {% set comments_open = function('comments_open', post.id) %}
+    
+    {% if comments_open %}
+    <div class="main-comments" style="background-color: {{ section.settings.background }}; color: {{ section.settings.color }};">
+        <div class="juzt-orbit-comments">
+            <h2 class="juzt-orbit-comments-title">
+                {{ section.settings.title }}
+            </h2>
+            <div>
+                <juzt-orbit:comments post-id="{{ post.id }}" user-id="{{ user.id|default(0) }}" />
+            </div>
+        </div>
+    </div>
+    {% endif %}
+{% endif %}
