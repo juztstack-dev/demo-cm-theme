@@ -39,7 +39,7 @@ class Assets
   {
     wp_enqueue_style(
       'juzt-orbit-google-fonts',
-      'https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=optional',
+      'https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap',
       array(),
       null
     );

@@ -1,21 +1,16 @@
 {
-  "name": "search",
-  "description": "Template for search results",
-  "template": true,
-  "order": [
-    "section_1772900010005"
-  ],
-  "sections": {
-    "section_1772900010005": {
-      "section_id": "main-archive",
-      "settings": {
-        "pagination_type": "numeric",
-        "quantity_cols_desktop": 3,
-        "quantity_cols_tablet": 2,
-        "quantity_cols_mobile": 1
-      },
-      "blocks": []
-    }
-  },
-  "post_type": "post"
+    "name": "search",
+    "description": "Template for search results",
+    "template": true,
+    "order": [
+        "section_1773351949357"
+    ],
+    "sections": {
+        "section_1773351949357": {
+            "section_id": "main-search",
+            "settings": [],
+            "blocks": []
+        }
+    },
+    "post_type": "post"
 }

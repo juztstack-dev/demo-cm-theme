@@ -1,8 +1,8 @@
 <?php
 /**
- * Template Name: Contact
+ * Template Name: Login
  * Template Post Type: page
- * Description: Contact page template with a contact form and map section
+ * Description: Login page template with a login form
  *
  * @package  JuztTheme
  * @subpackage  Timber
@@ -13,7 +13,7 @@ use \Juztstack\JuztStudio\Community\Templates;
 use Timber\Timber;
 
 $template = new Templates();
-$template_content = $template->get_json_template('page-contact');
+$template_content = $template->get_json_template('page-login');
 $context = Timber::context();
 $context['order'] = $template_content['order'];
 $context['sections'] = $template_content['sections'];

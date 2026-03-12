@@ -4,8 +4,6 @@
 {% block html_head_container %}
 	
     {% include 'layouts/head.twig' %}
-	
-    {% block head %}{% endblock %}
     
     <!-- Script from general settings -->
     {% if settings.code_js %}
@@ -13,8 +11,9 @@
         {{ settings.code_js|base64_decode|raw }}
     </script>
     {% endif %}
-
-    {{ snippet('seo', { post: post }) }}
+    {% set term = fn('get_queried_object') %}
+    {{ snippet('seo', { post: post, term: term }) }}
+    {% block head %}{% endblock %}
 
 {% endblock %}
 </head>

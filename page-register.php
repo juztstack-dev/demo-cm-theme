@@ -1,8 +1,8 @@
 <?php
 /**
- * Template Name: Contact
+ * Template Name: Register
  * Template Post Type: page
- * Description: Contact page template with a contact form and map section
+ * Description: Register page template with a registration form
  *
  * @package  JuztTheme
  * @subpackage  Timber
@@ -13,7 +13,7 @@ use \Juztstack\JuztStudio\Community\Templates;
 use Timber\Timber;
 
 $template = new Templates();
-$template_content = $template->get_json_template('page-contact');
+$template_content = $template->get_json_template('page-register');
 $context = Timber::context();
 $context['order'] = $template_content['order'];
 $context['sections'] = $template_content['sections'];

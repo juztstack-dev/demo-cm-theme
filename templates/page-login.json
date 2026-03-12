@@ -1,0 +1,18 @@
+{
+    "template": "page-login",
+    "sections": {
+        "section_1773335779156": {
+            "section_id": "main-auth-login",
+            "settings": {
+                "show_recovery": true
+            },
+            "blocks": []
+        }
+    },
+    "order": [
+        "section_1773335779156"
+    ],
+    "name": "Login Page Template",
+    "description": "Login page template with a login form",
+    "post_type": "page"
+}

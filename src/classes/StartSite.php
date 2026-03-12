@@ -8,6 +8,7 @@ use JuztStack\JuztOrbit\Widgets;
 use JuztStack\JuztOrbit\Assets;
 use JuztStack\JuztOrbit\Extensions;
 use JuztStack\JuztOrbit\Api;
+use JuztStack\JuztOrbit\Auth;
 use Timber\Site;
 
 if (class_exists('Timber\\Site') === false) {
@@ -21,6 +22,9 @@ class StartSite extends Site
   {
     add_filter('show_admin_bar', [$this, 'hide_admin_bar_in_iframe']);
     add_filter('the_content', [$this, 'optimize_content_images'], 20);
+    add_action('wp_nav_menu_item_custom_fields', [$this, 'render_menu_role_visibility_field'], 10, 5);
+    add_action('wp_update_nav_menu_item', [$this, 'save_menu_role_visibility_field'], 10, 3);
+    add_filter('wp_get_nav_menu_items', [$this, 'filter_nav_menu_items_by_role'], 10, 3);
     add_action('after_setup_theme', array($this, 'themeSupports'));
     add_action('init', array($this, 'php_setup'));
 
@@ -45,6 +49,7 @@ class StartSite extends Site
     new SvgSupport();
     new Widgets();
     new Api();
+    new Auth();
     return parent::__construct();
   }
 
@@ -227,5 +232,109 @@ class StartSite extends Site
       'views_sections_directory' => 'views/sections',  // Para Twig
       'schemas_directory' => 'schemas'                 // Para Builder
     ]);
+  }
+
+  private function get_menu_visibility_roles()
+  {
+    $roles = [
+      '' => 'Everyone',
+      '__logged_in' => 'Logged-in users',
+      '__logged_out' => 'Guests only',
+    ];
+
+    $wp_roles = wp_roles();
+    if ($wp_roles && !empty($wp_roles->roles)) {
+      foreach ($wp_roles->roles as $role_key => $role_data) {
+        $roles[$role_key] = $role_data['name'] ?? ucfirst($role_key);
+      }
+    }
+
+    return $roles;
+  }
+
+  public function render_menu_role_visibility_field($item_id, $item, $depth, $args, $id)
+  {
+    $selected = (string) get_post_meta($item_id, '_juzt_menu_role_visibility', true);
+    $available_roles = $this->get_menu_visibility_roles();
+
+    ?>
+    <p class="description description-wide juzt-menu-role-visibility-field">
+      <label for="edit-menu-item-juzt-role-<?php echo esc_attr($item_id); ?>">
+        <?php esc_html_e('Visible for role', 'juzt-orbit'); ?><br />
+        <select
+          id="edit-menu-item-juzt-role-<?php echo esc_attr($item_id); ?>"
+          class="widefat code edit-menu-item-juzt-role"
+          name="menu-item-juzt-role[<?php echo esc_attr($item_id); ?>]"
+        >
+          <?php foreach ($available_roles as $role_value => $role_label) : ?>
+            <option value="<?php echo esc_attr($role_value); ?>" <?php selected($selected, $role_value); ?>>
+              <?php echo esc_html($role_label); ?>
+            </option>
+          <?php endforeach; ?>
+        </select>
+      </label>
+    </p>
+    <?php
+  }
+
+  public function save_menu_role_visibility_field($menu_id, $menu_item_db_id, $args)
+  {
+    if (!isset($_POST['menu-item-juzt-role']) || !is_array($_POST['menu-item-juzt-role'])) {
+      delete_post_meta($menu_item_db_id, '_juzt_menu_role_visibility');
+      return;
+    }
+
+    $raw_value = $_POST['menu-item-juzt-role'][$menu_item_db_id] ?? '';
+    $selected_role = sanitize_key((string) $raw_value);
+    $available_roles = $this->get_menu_visibility_roles();
+
+    if (!array_key_exists($selected_role, $available_roles)) {
+      $selected_role = '';
+    }
+
+    if ($selected_role === '') {
+      delete_post_meta($menu_item_db_id, '_juzt_menu_role_visibility');
+      return;
+    }
+
+    update_post_meta($menu_item_db_id, '_juzt_menu_role_visibility', $selected_role);
+  }
+
+  public function filter_nav_menu_items_by_role($items, $menu, $args)
+  {
+    if (is_admin()) {
+      return $items;
+    }
+
+    if (!is_array($items) || empty($items)) {
+      return $items;
+    }
+
+    $is_logged_in = is_user_logged_in();
+    $current_user_roles = $is_logged_in ? (array) wp_get_current_user()->roles : [];
+
+    $filtered = array_values(array_filter($items, function ($item) use ($is_logged_in, $current_user_roles) {
+      $required_role = (string) get_post_meta($item->ID, '_juzt_menu_role_visibility', true);
+
+      if ($required_role === '') {
+        return true;
+      }
+
+      if ($required_role === '__logged_in') {
+        return $is_logged_in;
+      }
+
+      if ($required_role === '__logged_out') {
+        return !$is_logged_in;
+      }
+
+      if (!$is_logged_in) {
+        return false;
+      }
+
+      return in_array($required_role, $current_user_roles, true);
+    }));
+
+    return $filtered;
   }
 }

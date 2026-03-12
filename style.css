@@ -4,7 +4,7 @@ Theme URI: https://juztstack.dev/products/juzt-orbit
 Author: Jesus Uzcategui
 Author URI: https://github.com/jesusuzcategui
 Description: Theme wordpress simple with twig and json template settings
-Version: 0.0.1
+Version: 2.0.0
 License: GNU v2
 License URI: https://mit-license.org/
 Tags: optimized, efficiently, development
@@ -487,5 +487,123 @@ juzt-orbit\:mobile-menu > div {
 
   &:hover {
     background-color: var(--link-hover-color);
+  }
+}
+
+.main-archive {
+  width: 100%;
+  color: var(--text-color);
+  position: relative;
+  min-height: calc(100vh - 156px);
+
+  padding: 30px 20px;
+
+  .main-archive-posts {
+    display: grid;
+    gap: 20px;
+    grid-template-columns: repeat(4, 1fr);
+    @media screen and (max-width: 1024px) {
+      grid-template-columns: repeat(3, 1fr);
+    }
+    @media screen and (max-width: 768px) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    @media screen and (max-width: 480px) {
+      grid-template-columns: repeat(1, 1fr);
+    }
+  }
+  
+
+  h1 {
+    font-family: var(--main-fonts);
+    font-size: 4rem;
+    text-align: center;
+    margin-bottom: 2rem;
+
+    @media screen and (max-width: 768px) {
+      font-size: 2.5rem;
+    }
+  }
+
+  .post-card {
+    padding: 20px;
+    border-radius: 4px;
+    margin-bottom: 20px;
+    border: solid 1px var(--primary-color);
+    background-color: #fff;
+
+    h2 {
+      font-family: var(--main-fonts);
+      font-size: 2rem;
+      margin-bottom: 10px;
+    }
+
+    p {
+      font-family: var(--main-fonts);
+      line-height: 1.6;
+      margin-bottom: 10px;
+    }
+
+    a {
+      color: var(--link-color);
+      text-decoration: none;
+      font-family: var(--main-fonts);
+      font-size: 1.2rem;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+}
+
+.main-search {
+  width: 100%;
+  color: var(--primary-text-color);
+  position: relative;
+  background-color: var(--primary-color);
+  padding: 30px 20px;
+
+  .main-search-title {
+    font-family: var(--main-fonts);
+    font-size: 4rem;
+    text-align: center;
+    margin-bottom: 2rem;
+
+    @media screen and (max-width: 768px) {
+      font-size: 2.5rem;
+    }
+  }
+
+  .main-search-form {
+    display: flex;
+    max-width: 600px;
+    margin: 0 auto;
+
+    input[type="text"] {
+      flex: 1;
+      padding: 10px;
+      border: none;
+      border-radius: 4px 0 0 4px;
+      font-family: var(--main-fonts);
+      font-size: 1.2rem;
+    }
+
+    button {
+      padding: 10px 20px;
+      background-color: transparent;
+      color: var(--primary-text-color);
+      font-family: var(--main-fonts);
+      border: solid 1px var(--primary-text-color);
+      font-size: 1.2rem;
+      border-radius: 0 4px 4px 0;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      
+      &:hover {
+        background-color: var(--primary-text-color);
+        color: var(--primary-color);
+      }
+    }
   }
 }

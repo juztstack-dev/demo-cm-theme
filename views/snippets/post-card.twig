@@ -1,0 +1,5 @@
+<article class="post-card">
+    <h2>{{ post.title }}</h2>
+    <p>{{ post.excerpt({read_more: false}) }}</p>
+    <a href="{{ post.link }}" aria-label="Read more about {{ post.title }}">Read full article</a>
+</article>

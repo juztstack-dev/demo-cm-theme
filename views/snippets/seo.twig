@@ -8,3 +8,7 @@
     {% endif %}
 
 {% endif %}
+
+{% if term %}
+    <meta name="description" content="{{ term.description | raw | default(term.name) }}" />
+{% endif %}

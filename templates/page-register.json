@@ -1,0 +1,18 @@
+{
+    "template": "page-register",
+    "sections": {
+        "section_1773312703356": {
+            "section_id": "main-auth-register",
+            "settings": {
+                "show_username": true
+            },
+            "blocks": []
+        }
+    },
+    "order": [
+        "section_1773312703356"
+    ],
+    "name": "Register Page Template",
+    "description": "Register page template with a registration form",
+    "post_type": "page"
+}
