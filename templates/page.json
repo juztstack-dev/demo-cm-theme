@@ -4,7 +4,10 @@
         "section_1763732558646": {
             "section_id": "main-page",
             "settings": {
-                "background": "#3b0146"
+                "background": "#28b853",
+                "show_post_date": true,
+                "show_post_author": true,
+                "show_post_navigation": true
             },
             "blocks": []
         }
