@@ -1,0 +1,10 @@
+{
+    "template": "page-custom",
+    "sections": {
+    },
+    "order": [
+    ],
+    "name": "Custom Page Template",
+    "description": "Custom page template with dynamic sections",
+    "post_type": "page"
+}

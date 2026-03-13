@@ -3,6 +3,15 @@ class AuthLogin extends HTMLElement {
         return ['allow-recovery'];
     }
 
+    notify(message, type = 'info') {
+        if (window?.JuztOrbit?.Notification?.show) {
+            window.JuztOrbit.Notification.show(message, type);
+            return;
+        }
+
+        console[type === 'error' ? 'error' : 'log'](message);
+    }
+
     async attributeChangedCallback(name, oldValue, newValue) {
         if (name === 'allow-recovery' && oldValue !== newValue) {
             this.allowRecovery = newValue === '1' || newValue === 'true';
@@ -19,6 +28,8 @@ class AuthLogin extends HTMLElement {
         this._loading      = true;
         this._loading_form = false;
         this._view         = 'login';
+        this.resetKey      = null;
+        this.resetLogin    = null;
         this.error         = null;
         this.form = {
             username: ''
@@ -36,10 +47,14 @@ class AuthLogin extends HTMLElement {
 
     checkView(){
         const hash = window.location.hash.replace('#', '');
-        if(hash === 'login' || hash === 'register' || hash === 'recovery'){
+        if(hash === 'login' || hash === 'register' || hash === 'recovery' || hash === 'set_pass'){
             this._view = hash;
         } else {
             this._view = 'login';
+        }
+
+        if (this._view === 'set_pass' && (!this.resetKey || !this.resetLogin)) {
+            this._view = 'recovery';
         }
 
         window.location.hash = this._view;
@@ -144,7 +159,14 @@ class AuthLogin extends HTMLElement {
         const container = document.createElement('div');
         container.classList.add('auth-login', 'auth-login--enter');
         
-        let html = `<h2 class="login-title">${this._view === 'login' ? 'Login' : 'Password Recovery'}</h2>`;
+        let title = 'Login';
+        if (this._view === 'recovery') {
+            title = 'Password Recovery';
+        } else if (this._view === 'set_pass') {
+            title = 'Set New Password';
+        }
+
+        let html = `<h2 class="login-title">${title}</h2>`;
         
         html += `
             ${this._view === 'login' ? `<form id="login-form">
@@ -152,10 +174,15 @@ class AuthLogin extends HTMLElement {
                 <input type="password" id="password" placeholder="Password" required />
                 ${this.allowRecovery ? '<a class="login-link" href="#recovery" id="forgot-password">Forgot password?</a>' : ''}
                 <button type="submit">Login</button>
-            </form>` : `<form id="recovery-form">
+            </form>` : this._view === 'recovery' ? `<form id="recovery-form">
                 <input type="email" id="email" placeholder="Email" required />
                 ${this.allowRecovery ? '<a class="login-link" href="#login" id="login-link">Login</a>' : ''}
                 <button type="submit">Restore password</button>
+            </form>` : `<form id="set-pass-form">
+                <input type="password" id="new-password" placeholder="New password" required />
+                <input type="password" id="confirm-password" placeholder="Confirm password" required />
+                <a class="login-link" href="#login" id="cancel-set-pass">Cancel and go to login</a>
+                <button type="submit">Set password</button>
             </form>`}
         `;
         container.innerHTML = html;
@@ -173,7 +200,7 @@ class AuthLogin extends HTMLElement {
             const password = this.shadowRoot.querySelector('#password').value;
 
             try {
-                const response = await fetch('/api/auth/login', {
+                const response = await fetch('/wp-json/juzt-orbit/v1/login', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ email, password }),
@@ -191,6 +218,94 @@ class AuthLogin extends HTMLElement {
                 this._loading_form = false;
             }
         });
+
+        const recoveryForm = this.shadowRoot.querySelector('#recovery-form');
+        recoveryForm?.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            if (this._loading_form) return;
+            this._loading_form = true;
+
+            const email = this.shadowRoot.querySelector('#email').value;
+
+            try {
+                const response = await fetch('/wp-json/juzt-orbit/v1/reset-password', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email }),
+                });
+
+                if (!response.ok) {
+                    throw new Error('Recovery failed');
+                }
+
+                const data = await response.json();
+                console.log('Recovery email sent:', data);
+
+                if (data?.success && data?.reset_key && data?.reset_login) {
+                    this.resetKey = data.reset_key;
+                    this.resetLogin = data.reset_login;
+                    this.toggleView('set_pass');
+                    this.notify('Recovery validated. Set your new password.', 'success');
+                } else {
+                    this.notify(data?.message || 'Recovery failed.', 'error');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                this.notify('Error requesting recovery.', 'error');
+            } finally {
+                this._loading_form = false;
+            }
+        });
+
+        const setPassForm = this.shadowRoot.querySelector('#set-pass-form');
+        setPassForm?.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            if (!this.resetKey || !this.resetLogin) {
+                this.toggleView('recovery');
+                return;
+            }
+
+            if (this._loading_form) return;
+            this._loading_form = true;
+
+            const newPassword = this.shadowRoot.querySelector('#new-password')?.value || '';
+            const confirmPassword = this.shadowRoot.querySelector('#confirm-password')?.value || '';
+
+            if (newPassword !== confirmPassword) {
+                this.notify('Passwords do not match.', 'error');
+                this._loading_form = false;
+                return;
+            }
+
+            try {
+                const response = await fetch('/wp-json/juzt-orbit/v1/set-password', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        new_key: this.resetKey,
+                        reset_login: this.resetLogin,
+                        new_password: newPassword,
+                    }),
+                });
+
+                const data = await response.json();
+
+                if (!response.ok || !data?.success) {
+                    throw new Error(data?.message || 'Failed to set new password');
+                }
+
+                this.notify('Password updated successfully.', 'success');
+                this.resetKey = null;
+                this.resetLogin = null;
+                this.toggleView('login');
+            } catch (error) {
+                this.notify(error?.message || 'Error updating password.', 'error');
+            } finally {
+                this._loading_form = false;
+            }
+        });
+
         const forgotPasswordLink = this.shadowRoot.querySelector('#forgot-password');
         if (forgotPasswordLink) {
             forgotPasswordLink.addEventListener('click', (event) => {
@@ -202,6 +317,16 @@ class AuthLogin extends HTMLElement {
         if (loginLink) {
             loginLink.addEventListener('click', (event) => {
                 event.preventDefault();
+                this.toggleView('login');
+            });
+        }
+
+        const cancelSetPass = this.shadowRoot.querySelector('#cancel-set-pass');
+        if (cancelSetPass) {
+            cancelSetPass.addEventListener('click', (event) => {
+                event.preventDefault();
+                this.resetKey = null;
+                this.resetLogin = null;
                 this.toggleView('login');
             });
         }
@@ -252,6 +377,10 @@ class AuthLogin extends HTMLElement {
     }
 
     toggleView(view) {
+        if (view === 'set_pass' && (!this.resetKey || !this.resetLogin)) {
+            view = 'recovery';
+        }
+
         const currentContainer = this.shadowRoot.querySelector('.auth-login');
 
         if (currentContainer) {
